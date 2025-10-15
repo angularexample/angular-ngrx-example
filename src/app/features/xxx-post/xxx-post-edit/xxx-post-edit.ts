@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, Signal } from '@angular/core';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { debounceTime, distinctUntilChanged, Observable } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { XxxContentType } from '../../../core/xxx-content/xxx-content-types';
@@ -11,11 +12,12 @@ import { XxxPostFacade } from '../xxx-post-facade';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    AsyncPipe,
     ReactiveFormsModule,
-    XxxContent,
+    XxxContent
   ],
   selector: 'xxx-post-edit',
-  templateUrl: './xxx-post-edit.html',
+  templateUrl: './xxx-post-edit.html'
 })
 export class XxxPostEdit {
   protected readonly contentKey: string = 'post-edit';
@@ -23,15 +25,15 @@ export class XxxPostEdit {
     body: new FormControl('', Validators.required),
     id: new FormControl(0),
     title: new FormControl('', Validators.required),
-    userId: new FormControl(0),
+    userId: new FormControl(0)
   });
   private contentFacade: XxxContentFacade = inject(XxxContentFacade);
-  protected readonly content: Signal<XxxContentType | undefined> = this.contentFacade.contentByKey(this.contentKey);
+  protected readonly content$: Observable<XxxContentType | undefined> = this.contentFacade.contentByKey$(this.contentKey);
   private destroyRef = inject(DestroyRef);
   private postFacade: XxxPostFacade = inject(XxxPostFacade);
-  protected readonly isNoSelectedPost: Signal<boolean> = this.postFacade.isNoSelectedPost;
-  protected readonly isSaveButtonDisabled: Signal<boolean> = this.postFacade.isSaveButtonDisabled;
-  protected readonly selectedPost: Signal<XxxPostType | undefined> = this.postFacade.selectedPost;
+  protected readonly isNoSelectedPost$: Observable<boolean> = this.postFacade.isNoSelectedPost$;
+  protected readonly isSaveButtonDisabled$: Observable<boolean> = this.postFacade.isSaveButtonDisabled$;
+  protected readonly selectedPost$: Observable<XxxPostType | undefined> = this.postFacade.selectedPost$;
 
   constructor() {
     this.loadFormData();
@@ -43,23 +45,24 @@ export class XxxPostEdit {
   }
 
   private loadFormData(): void {
-    const post: XxxPostType | undefined = this.selectedPost();
-    if (post !== undefined) {
-      // Unit test will fail if you use this.postForm.setValue(post);
-      this.postForm.setValue({
-        body: post.body || '',
-        id: post.id || 0,
-        title: post.title || '',
-        userId: post.userId || 0,
-      });
-    }
+    this.selectedPost$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(post => {
+      if (post !== undefined) {
+        // Unit test will fail if you use this.postForm.setValue(post);
+        this.postForm.setValue({
+          body: post.body || '',
+          id: post.id || 0,
+          title: post.title || '',
+          userId: post.userId || 0
+        });
+      }
+    });
   }
 
   private subscribeToFormChanges(): void {
     this.postForm.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      takeUntilDestroyed(this.destroyRef),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe(value => {
       const post: XxxPostType = <XxxPostType>value;
       this.postFacade.setPostForm(post);

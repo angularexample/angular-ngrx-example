@@ -4,10 +4,10 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { XxxAlertService } from '../../core/xxx-alert/xxx-alert.service';
-import { XxxPost } from './xxx-post.types';
+import { XxxAlert } from '../../core/xxx-alert/xxx-alert';
+import { XxxPostType } from './xxx-post-types';
 import { XxxPostActions } from './xxx-post.actions';
-import { XxxPostDataService } from './xxx-post-data.service';
+import { XxxPostData } from './xxx-post-data';
 import * as XxxPostSelectors from './xxx-post.selectors';
 import * as XxxUserSelectors from '../xxx-user/xxx-user.selectors';
 
@@ -16,8 +16,8 @@ export class XxxPostEffects {
   private actions$: Actions = inject(Actions);
   private router: Router = inject(Router);
   private store: Store = inject(Store);
-  private xxxAlertService: XxxAlertService = inject(XxxAlertService);
-  private xxxPostDataService: XxxPostDataService = inject(XxxPostDataService);
+  private xxxAlert: XxxAlert = inject(XxxAlert);
+  private xxxPostData: XxxPostData = inject(XxxPostData);
 
   getPosts$ = createEffect(() =>
     this.actions$.pipe(
@@ -27,8 +27,8 @@ export class XxxPostEffects {
       filter((userId: number | undefined) => userId !== undefined),
       switchMap((userId: number | undefined) => {
         if (userId !== undefined) {
-          return this.xxxPostDataService.getPosts(userId).pipe(
-            map((posts: XxxPost[]) => XxxPostActions.getPostsSuccess({posts})),
+          return this.xxxPostData.getPosts(userId).pipe(
+            map((posts: XxxPostType[]) => XxxPostActions.getPostsSuccess({posts})),
             catchError(() => of(XxxPostActions.getPostsError()))
           )
         } else {
@@ -40,21 +40,21 @@ export class XxxPostEffects {
   getPostsError$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.getPostsError),
       tap(() => {
-        this.xxxAlertService.showError('Error occurred getting posts');
+        this.xxxAlert.showError('Error occurred getting posts');
       })
     ), {dispatch: false}
   );
 
-  setSelectedPost$ = createEffect(() => this.actions$.pipe(
-      ofType(XxxPostActions.setSelectedPost),
+  setSelectedPostId$ = createEffect(() => this.actions$.pipe(
+      ofType(XxxPostActions.setSelectedPostId),
       tap(() => {
         void this.router.navigateByUrl('/post/edit')
       })
     ), {dispatch: false}
   );
 
-  setSelectedUser$ = createEffect(() => this.actions$.pipe(
-      ofType(XxxPostActions.setSelectedUser),
+  setSelectedUserId$ = createEffect(() => this.actions$.pipe(
+      ofType(XxxPostActions.setSelectedUserId),
       map(() => XxxPostActions.getPosts())
     )
   );
@@ -78,7 +78,7 @@ export class XxxPostEffects {
         (userUserId !== undefined && !(isPostsLoaded && postUserId === userUserId))),
       map(([_isPostsLoaded, postUserId, userUserId]: [boolean, number | undefined, number | undefined]) => {
         if (userUserId !== undefined && userUserId !== postUserId) {
-          return XxxPostActions.setSelectedUser({userId: userUserId})
+          return XxxPostActions.setSelectedUserId({userId: userUserId})
             ;
         }
         return XxxPostActions.getPosts()
@@ -91,10 +91,10 @@ export class XxxPostEffects {
       ofType(XxxPostActions.updatePost),
       concatLatestFrom(() => this.store.select(XxxPostSelectors.selectPostForm)),
       map(([_arg1, arg2]) => arg2),
-      switchMap((post: XxxPost | undefined) => {
+      switchMap((post: XxxPostType | undefined) => {
         if (post !== undefined) {
-          return this.xxxPostDataService.updatePost(post).pipe(
-            map((postResponse: XxxPost) => XxxPostActions.updatePostSuccess({postResponse})),
+          return this.xxxPostData.updatePost(post).pipe(
+            map((postResponse: XxxPostType) => XxxPostActions.updatePostSuccess({postResponse})),
             catchError(() => of(XxxPostActions.updatePostError()))
           )
         } else {
@@ -106,7 +106,7 @@ export class XxxPostEffects {
   updatePostError$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.updatePostError),
       tap(() => {
-        this.xxxAlertService.showError('Error occurred. Unable to update post');
+        this.xxxAlert.showError('Error occurred. Unable to update post');
       })
     ), {dispatch: false}
   );
@@ -114,7 +114,7 @@ export class XxxPostEffects {
   updatePostSuccess$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.updatePostSuccess),
       tap(() => {
-        this.xxxAlertService.showInfo('Successfully updated post');
+        this.xxxAlert.showInfo('Successfully updated post');
         void this.router.navigateByUrl('/post')
       })
     ), {dispatch: false}

@@ -8,7 +8,6 @@ import { XxxContentFacade } from './xxx-content-facade';
   imports: [AsyncPipe],
   selector: 'xxx-content',
   standalone: true,
-  styleUrl: './xxx-content.scss',
   templateUrl: './xxx-content.html',
 })
 export class XxxContent implements OnInit {

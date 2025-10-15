@@ -4,11 +4,11 @@ import { concatLatestFrom } from '@ngrx/operators';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { XxxAlertService } from '../../core/xxx-alert/xxx-alert.service';
-import { XxxLoadingService } from '../../core/xxx-loading/xxx-loading.service';
+import { XxxAlert } from '../../core/xxx-alert/xxx-alert';
+import { XxxLoadingService } from '../../core/xxx-loading/xxx-loading-service';
 import { XxxUserActions } from './xxx-user.actions';
-import { XxxUserApiResponse } from './xxx-user.types';
-import { XxxUserDataService } from './xxx-user-data.service';
+import { XxxUserApiResponse } from './xxx-user-types';
+import { XxxUserData } from './xxx-user-data';
 import * as XxxUserSelectors from './xxx-user.selectors';
 
 @Injectable()
@@ -16,12 +16,12 @@ export class XxxUserEffects {
   private actions$: Actions = inject(Actions);
   private router: Router = inject(Router);
   private store: Store = inject(Store);
-  private alertService: XxxAlertService = inject(XxxAlertService);
+  private alertService: XxxAlert = inject(XxxAlert);
   private loadingService: XxxLoadingService = inject(XxxLoadingService);
-  private userDataService: XxxUserDataService = inject(XxxUserDataService);
+  private userDataService: XxxUserData = inject(XxxUserData);
 
-  selectUser$ = createEffect(() => this.actions$.pipe(
-      ofType(XxxUserActions.selectUser),
+  setSelectedUserId$ = createEffect(() => this.actions$.pipe(
+      ofType(XxxUserActions.setSelectedUserId),
       tap(() => {
         void this.router.navigateByUrl('/post')
       })
@@ -42,7 +42,7 @@ export class XxxUserEffects {
       ofType(XxxUserActions.getUsersError),
       tap(() => {
         this.loadingService.loadingOff();
-        this.alertService.showError('Error occurred while fetching users.');
+        this.alertService.showError('Error. Unable to get users.');
       }),
     ), {dispatch: false});
 
