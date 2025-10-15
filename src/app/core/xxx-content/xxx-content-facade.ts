@@ -1,0 +1,24 @@
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { XxxContentActions } from './xxx-content.actions';
+import * as XxxContentSelectors from './xxx-content.selectors';
+import { XxxContentType } from './xxx-content-types';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class XxxContentFacade {
+  private store: Store = inject(Store);
+  readonly isContentEmpty$ = (key: string): Observable<boolean> => this.store.select(XxxContentSelectors.selectIsContentEmpty(key));
+  readonly isContentError$ = (key: string): Observable<boolean> => this.store.select(XxxContentSelectors.selectIsContentError(key));
+  readonly contentByKey$ = (key: string): Observable<XxxContentType | undefined> => this.store.select(XxxContentSelectors.selectContentByKey(key))
+
+  /**
+   * Call this when you render a page that needs content.
+   * @param key the key to the content for a given page
+   */
+  showContent(key: string): void {
+    this.store.dispatch(XxxContentActions.showContent({key}))
+  }
+}

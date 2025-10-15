@@ -1,0 +1,6 @@
+@if (isContentError$ | async) {
+  <p>ERROR Unable to load content: {{ contentKey()}}</p>
+}
+@else if (isContentEmpty$ | async) {
+  <p>ERROR Content empty: {{ contentKey()}}</p>
+}
