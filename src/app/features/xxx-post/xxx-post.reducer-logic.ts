@@ -33,7 +33,7 @@ export const setPostForm = (state: XxxPostState, action: { post: XxxPostType }) 
 }
 
 export const setSelectedPostId = (state: XxxPostState, action: { postId: number }) => {
-  let newState: XxxPostState = {
+  const newState: XxxPostState = {
     ...state
   };
   // make sure the selected post exists
@@ -53,7 +53,7 @@ export const setSelectedUserId = (_state: XxxPostState, action: {userId: number}
 
 export const updatePostSuccess = (state: XxxPostState, action: {postResponse: XxxPostType}) => {
   // remove the old post, add the new one, sort by id
-  let posts= state.posts.filter(item => item.id !== action.postResponse.id);
+  const posts= state.posts.filter(item => item.id !== action.postResponse.id);
   const updatedPost: XxxPostType = {...action.postResponse};
   posts.push(updatedPost);
   posts.sort((a: XxxPostType, b: XxxPostType) => a.id - b.id);
