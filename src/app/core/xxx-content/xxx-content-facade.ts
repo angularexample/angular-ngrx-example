@@ -10,9 +10,9 @@ import { XxxContentType } from './xxx-content-types';
 })
 export class XxxContentFacade {
   private store: Store = inject(Store);
+  readonly contentByKey$ = (key: string): Observable<XxxContentType | undefined> => this.store.select(XxxContentSelectors.selectContentByKey(key))
   readonly isContentEmpty$ = (key: string): Observable<boolean> => this.store.select(XxxContentSelectors.selectIsContentEmpty(key));
   readonly isContentError$ = (key: string): Observable<boolean> => this.store.select(XxxContentSelectors.selectIsContentError(key));
-  readonly contentByKey$ = (key: string): Observable<XxxContentType | undefined> => this.store.select(XxxContentSelectors.selectContentByKey(key))
 
   showContent(key: string): void {
     this.store.dispatch(XxxContentActions.showContent({key}))
