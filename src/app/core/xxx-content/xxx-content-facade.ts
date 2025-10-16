@@ -14,10 +14,6 @@ export class XxxContentFacade {
   readonly isContentError$ = (key: string): Observable<boolean> => this.store.select(XxxContentSelectors.selectIsContentError(key));
   readonly contentByKey$ = (key: string): Observable<XxxContentType | undefined> => this.store.select(XxxContentSelectors.selectContentByKey(key))
 
-  /**
-   * Call this when you render a page that needs content.
-   * @param key the key to the content for a given page
-   */
   showContent(key: string): void {
     this.store.dispatch(XxxContentActions.showContent({key}))
   }
