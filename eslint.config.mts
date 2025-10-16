@@ -11,8 +11,16 @@ export default defineConfig([
     plugins: { js },
     extends: ['js/recommended'],
     languageOptions: { globals: globals.browser },
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          'argsIgnorePattern': '^_'
+        }
+      ]
+    }
   },
   { ignores: ['node_modules/', 'dist/', '*.min.js', '.angular', '.idea', '.vscode', 'coverage/', 'jest.config.js'] },
   eslintConfigPrettier,
-  tseslint.configs.recommended,
+  tseslint.configs.recommended
 ]);

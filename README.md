@@ -344,3 +344,23 @@ import ngrx from '@ngrx/eslint-plugin/v9';
     ]
   }
 ```
+
+### Add Rules for Unused Arguments
+
+In the effects file, it is common to have unised arguments in the functions inside the pipe, especially after using `concatLatestFrom`.
+
+To avoid ESLint errors, in those cases, add the following to the `.eslintrc.config.mts` file:
+
+```
+    rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          'argsIgnorePattern': '^_'
+        }
+      ]
+    }
+
+```
+
+Now you may add an underscore prefix to any of the unused arguments.
