@@ -1,6 +1,6 @@
 import { App } from './app';
 import { Component, provideZonelessChangeDetection } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { XxxHeader } from './shared/xxx-header/xxx-header';
 import { XxxLoading } from './core/xxx-loading/xxx-loading';
@@ -11,13 +11,6 @@ import { XxxLoading } from './core/xxx-loading/xxx-loading';
   template: ''
 })
 class MockXxxHeader {
-}
-
-@Component({
-  selector: 'router-outlet', // Same selector as the real child component
-  template: ''
-})
-class MockRouterOutlet {
 }
 
 @Component({
@@ -32,19 +25,18 @@ describe('App', () => {
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [
+        provideRouter([]),
         provideZonelessChangeDetection()
       ]
     }).overrideComponent(App, {
       remove: {
         imports: [
-          RouterOutlet,
           XxxHeader,
           XxxLoading
         ]
       },
       add: {
         imports: [
-          MockRouterOutlet,
           MockXxxHeader,
           MockXxxLoading
         ]
