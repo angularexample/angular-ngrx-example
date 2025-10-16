@@ -8,7 +8,9 @@ describe('XxxHome', () => {
   let fixture: ComponentFixture<XxxHome>;
 
   const mockXxxContentFacade = {
-    contentByKey: jest.fn(),
+    contentByKey$: jest.fn(),
+    isContentEmpty$: jest.fn(),
+    isContentError$: jest.fn()
   }
 
   beforeEach(async () => {
