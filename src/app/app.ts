@@ -11,7 +11,6 @@ import { XxxLoading } from './core/xxx-loading/xxx-loading';
     XxxLoading
   ],
   selector: 'app-root',
-  standalone: true,
   templateUrl: './app.html',
 })
 export class App {

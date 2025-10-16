@@ -7,7 +7,6 @@ import { XxxContentFacade } from './xxx-content-facade';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AsyncPipe],
   selector: 'xxx-content',
-  standalone: true,
   templateUrl: './xxx-content.html',
 })
 export class XxxContent implements OnInit {
