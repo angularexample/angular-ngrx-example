@@ -8,8 +8,8 @@ import { provideEffects } from '@ngrx/effects';
 import { provideRouter } from '@angular/router';
 import { provideStore } from '@ngrx/store';
 import { routes } from './app-routes';
-import { XxxContentEffects } from './core/xxx-content/xxx-content.effects';
-import { xxxContentReducer } from './core/xxx-content/xxx-content.reducer';
+import { XxxContentEffects } from './core/xxx-content/xxx-content-effects';
+import { xxxContentReducer } from './core/xxx-content/xxx-content-reducer';
 import { provideHttpClient } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 

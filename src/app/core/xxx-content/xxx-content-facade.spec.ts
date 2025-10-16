@@ -1,6 +1,6 @@
 import { mockContentHome } from './xxx-content.mocks';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectContentByKey, selectIsContentEmpty, selectIsContentError } from './xxx-content.selectors';
+import { selectContentByKey, selectIsContentEmpty, selectIsContentError } from './xxx-content-selectors';
 import { TestBed } from '@angular/core/testing';
 import { XxxContentFacade } from './xxx-content-facade';
 import { xxxContentInitialState } from './xxx-content-types';
