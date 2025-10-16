@@ -7,7 +7,9 @@ describe('XxxHeader', () => {
   let fixture: ComponentFixture<XxxHeader>;
   let component: XxxHeader;
   const mockXxxContentFacade = {
-    contentByKey: jest.fn(),
+    contentByKey$: jest.fn(),
+    isContentEmpty$: jest.fn(),
+    isContentError$: jest.fn()
   }
 
   beforeEach(async () => {
