@@ -13,8 +13,15 @@ import { xxxContentReducer } from './core/xxx-content/xxx-content-reducer';
 import { provideHttpClient } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+// StoreDevtoolsModule is required to use ReduxDevTools Chrome Extension
+// and must be in providers after provideStore
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideEffects(XxxContentEffects),
+    provideHttpClient(),
+    provideRouter(routes),
+    provideStore({ xxxContent: xxxContentReducer }),
     importProvidersFrom(
       StoreDevtoolsModule.instrument({
         maxAge: 25, // Retains last 25 states
@@ -24,11 +31,6 @@ export const appConfig: ApplicationConfig = {
         traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
         connectInZone: true // If set to true, the connection is established within the Angular zone
       })),
-    provideBrowserGlobalErrorListeners(),
-    provideEffects(XxxContentEffects),
-    provideHttpClient(),
-    provideRouter(routes),
-    provideStore({ xxxContent: xxxContentReducer }),
     provideZonelessChangeDetection()
   ]
 };
