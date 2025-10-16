@@ -1,5 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { XxxContentType, XxxContentState, XxxContentStatus, XxxContentApi } from './xxx-content-types';
+import { XxxContentApi, XxxContentState, XxxContentStatus, XxxContentType } from './xxx-content-types';
 
 export const getContent = (state: XxxContentState, action: { key: string }) => {
   const contents: XxxContentType[] = <XxxContentType[]>JSON.parse(JSON.stringify(state.contents));
@@ -17,10 +16,10 @@ export const getContent = (state: XxxContentState, action: { key: string }) => {
   return {
     ...state,
     contents
-  }
-}
+  };
+};
 
-export const getContentError = (state: XxxContentState, action: { key: string, err: HttpErrorResponse }) => {
+export const getContentError = (state: XxxContentState, action: { key: string }) => {
   const contents: XxxContentType[] = <XxxContentType[]>JSON.parse(JSON.stringify(state.contents));
   let content: XxxContentType | undefined = contents.find((item: XxxContentType) => item.key === action.key);
   if (content === undefined) {
@@ -30,13 +29,13 @@ export const getContentError = (state: XxxContentState, action: { key: string, e
     };
     contents.push(content);
   } else {
-    content.status = XxxContentStatus.ERROR
+    content.status = XxxContentStatus.ERROR;
   }
   return {
     ...state,
     contents
-  }
-}
+  };
+};
 
 export const getContentSuccess = (state: XxxContentState, action: { content: XxxContentApi }) => {
   const contents: XxxContentType[] = <XxxContentType[]>JSON.parse(JSON.stringify(state.contents));
@@ -59,5 +58,5 @@ export const getContentSuccess = (state: XxxContentState, action: { content: Xxx
   return {
     ...state,
     contents
-  }
-}
+  };
+};
