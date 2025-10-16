@@ -34,10 +34,6 @@ describe('XxxContentFacade', () => {
   const service: XxxContentFacade = TestBed.inject(XxxContentFacade);
   const store: MockStore = TestBed.inject(MockStore);
 
-  afterEach(() => {
-    //store.resetSelectors();
-  });
-
   describe('constructor phase', () => {
     it('should be created', () => {
       expect(service).toBeDefined();
