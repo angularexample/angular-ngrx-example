@@ -1,6 +1,5 @@
 import { mockContentHome } from './xxx-content.mocks';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { selectContentByKey, selectIsContentEmpty, selectIsContentError } from './xxx-content-selectors';
 import { TestBed } from '@angular/core/testing';
 import { XxxContentFacade } from './xxx-content-facade';
 import { xxxContentInitialState } from './xxx-content-types';
@@ -11,21 +10,7 @@ describe('XxxContentFacade', () => {
   TestBed.configureTestingModule({
     providers: [
       provideMockStore({
-        initialState: xxxContentInitialState,
-        selectors: [
-          {
-            selector: selectContentByKey(contentKey),
-            value: mockContentHome
-          },
-          {
-            selector: selectIsContentEmpty(contentKey),
-            value: false
-          },
-          {
-            selector: selectIsContentError(contentKey),
-            value: true
-          }
-        ]
+        initialState: xxxContentInitialState
       }),
       XxxContentFacade
     ]
