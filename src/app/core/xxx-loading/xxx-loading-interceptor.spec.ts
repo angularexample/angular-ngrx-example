@@ -36,6 +36,7 @@ describe('XxxLoadingInterceptor', () => {
   })
 
   afterEach(() => {
+    jest.useRealTimers();
     jest.clearAllMocks();
   })
 
@@ -47,27 +48,35 @@ describe('XxxLoadingInterceptor', () => {
 
   describe('intercept', () => {
     it('should call XxxLoadingService.loadingOn', () => {
+      jest.useFakeTimers();
       service.intercept(req, mockHandler).subscribe();
+      // Use runAllTimers to complete the observable subscription
+      jest.runAllTimers();
       expect(mockXxxLoadingService.loadingOn).toHaveBeenCalled();
     });
 
     it('should call XxxLoadingService.loadingOff when complete', () => {
-      service.intercept(req, mockHandler).subscribe(() => {
-        expect(mockXxxLoadingService.loadingOff).toHaveBeenCalled();
-      });
+      jest.useFakeTimers();
+      service.intercept(req, mockHandler).subscribe();
+      // Use runAllTimers to complete the observable subscription
+      jest.runAllTimers();
+      expect(mockXxxLoadingService.loadingOff).toHaveBeenCalled();
     });
 
     it('should call next handler', () => {
+      jest.useFakeTimers();
       service.intercept(req, mockHandler).subscribe();
+      jest.runAllTimers();
       expect(spyHandler).toHaveBeenCalled();
     });
 
     it('should skip loading when context SKIP_LOADING is true', () => {
+      jest.useFakeTimers();
       req.context.set(SKIP_LOADING, true);
-      service.intercept(req, mockHandler).subscribe(() => {
-        expect(mockXxxLoadingService.loadingOff).not.toHaveBeenCalled();
-      });
+      service.intercept(req, mockHandler).subscribe();
+      jest.runAllTimers();
       expect(mockXxxLoadingService.loadingOn).not.toHaveBeenCalled();
+      expect(mockXxxLoadingService.loadingOff).not.toHaveBeenCalled();
     });
   });
 });
