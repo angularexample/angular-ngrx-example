@@ -18,11 +18,6 @@ export const selectIsContentLoaded = (key: string) => createSelector(
   (content: XxxContentType | undefined): boolean => content !== undefined && content.status === XxxContentStatus.LOADED
 );
 
-export const selectIsContentLoading = (key: string) => createSelector(
-  selectContentByKey(key),
-  (content: XxxContentType | undefined): boolean => content !== undefined && content.status === XxxContentStatus.LOADING
-);
-
 export const selectIsContentEmpty = (key: string) => createSelector(
   selectContentByKey(key),
   (content: XxxContentType | undefined): boolean => content !== undefined && content.status === XxxContentStatus.EMPTY
