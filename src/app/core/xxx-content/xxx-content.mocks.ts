@@ -1,5 +1,16 @@
 import { XxxContentType, XxxContentStatus, XxxContentApi, XxxContentState } from './xxx-content-types';
 
+export const mockContentEmpty: XxxContentType = {
+  contentModel: {},
+  key: 'empty',
+  status: XxxContentStatus.EMPTY
+}
+
+export const mockContentError: XxxContentType = {
+  key: 'error',
+  status: XxxContentStatus.ERROR
+}
+
 export const mockContentHeader: XxxContentType = {
 contentModel: {
   headerTitle: `Angular NgRx Example`
@@ -17,7 +28,7 @@ export const mockContentHome: XxxContentType = {
   status: XxxContentStatus.LOADED
 }
 
-export const mockContentApiHome: XxxContentApi = {
+export const mockContentHomeApi: XxxContentApi = {
   contentModel: {
     bodyText: 'Hello World, this is the body text for home',
     pageTitle: 'Home',
@@ -25,23 +36,27 @@ export const mockContentApiHome: XxxContentApi = {
   key: 'home'
 }
 
-
-export const mockContentApiEmpty: XxxContentApi = {
+export const mockContentHomeApiEmpty: XxxContentApi = {
   contentModel: {},
-  key: 'empty'
+  key: 'home'
 }
 
-export const mockContentEmpty: XxxContentType = {
+export const mockContentHomeEmpty: XxxContentType = {
   contentModel: {},
-  key: 'empty',
-  status: XxxContentStatus.EMPTY
+  key: 'home',
+  status: XxxContentStatus.EMPTY,
 }
 
-export const mockContentError: XxxContentType = {
-  contentModel: {},
-  key: 'error',
+export const mockContentHomeError: XxxContentType = {
+  key: 'home',
   status: XxxContentStatus.ERROR
 }
+
+export const mockContentHomeLoading: XxxContentType = {
+  key: 'home',
+  status: XxxContentStatus.LOADING
+}
+
 
 export const mockContentState: XxxContentState = {
   contents: [
@@ -49,5 +64,32 @@ export const mockContentState: XxxContentState = {
     mockContentError,
     mockContentHeader,
     mockContentHome,
+  ]
+}
+
+export const mockContentStateHomeEmpty: XxxContentState = {
+  contents: [
+    mockContentEmpty,
+    mockContentError,
+    mockContentHeader,
+    mockContentHomeEmpty,
+  ]
+}
+
+export const mockContentStateHomeError: XxxContentState = {
+  contents: [
+    mockContentEmpty,
+    mockContentError,
+    mockContentHeader,
+    mockContentHomeError,
+  ]
+}
+
+export const mockContentStateHomeLoading: XxxContentState = {
+  contents: [
+    mockContentEmpty,
+    mockContentError,
+    mockContentHeader,
+    mockContentHomeLoading,
   ]
 }
