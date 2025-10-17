@@ -1,25 +1,19 @@
-export interface XxxContentType {
-  contentModel?: XxxContentModel;
-  key: string;
-  status: XxxContentStatus;
-}
-
 export interface XxxContentApi {
   contentModel: XxxContentModel;
   key: string;
 }
+
+export const xxxContentFeatureName = 'xxxContent';
+
+export const xxxContentInitialState: XxxContentState = {
+  contents: []
+};
 
 export interface XxxContentModel {
   bodyText?: string;
   headerTitle?: string;
   pageTitle?: string;
 }
-
-export const xxxContentFeatureName = 'xxxContent';
-
-export const xxxContentInitialState: XxxContentState = {
-  contents: [],
-};
 
 export interface XxxContentState {
   contents: XxxContentType[];
@@ -30,4 +24,10 @@ export enum XxxContentStatus {
   ERROR = 'ERROR',
   LOADED = 'LOADED',
   LOADING = 'LOADING',
+}
+
+export interface XxxContentType {
+  contentModel?: XxxContentModel;
+  key: string;
+  status: XxxContentStatus;
 }
