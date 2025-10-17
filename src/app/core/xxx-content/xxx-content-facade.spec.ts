@@ -9,9 +9,7 @@ describe('XxxContentFacade', () => {
 
   TestBed.configureTestingModule({
     providers: [
-      provideMockStore({
-        initialState: xxxContentInitialState
-      }),
+      provideMockStore({ initialState: xxxContentInitialState }),
       XxxContentFacade
     ]
   });
