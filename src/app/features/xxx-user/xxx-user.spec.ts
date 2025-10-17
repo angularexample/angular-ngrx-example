@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { mockUser, mockUsers } from "./xxx-user.mocks";
+import { mockUser, mockUsers } from './xxx-user.mocks';
+import { of } from 'rxjs';
 import { XxxContent } from '../../core/xxx-content/xxx-content';
 import { XxxContentFacade } from '../../core/xxx-content/xxx-content-facade';
 import { XxxUser } from './xxx-user';
@@ -11,10 +13,11 @@ import { XxxUserType } from './xxx-user-types';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    XxxContent,
+    AsyncPipe,
+    XxxContent
   ],
   selector: 'extended-xxx-user',
-  templateUrl: './xxx-user.html',
+  templateUrl: './xxx-user.html'
 })
 class ExtendedXxxUser extends XxxUser {
   override rowClick(user: XxxUserType) {
@@ -28,25 +31,29 @@ describe('XxxUser', () => {
   const mockUserId: number = 1;
 
   const mockXxxContentFacade = {
-    contentByKey: jest.fn(),
-  }
+    contentByKey$: jest.fn(),
+    isContentEmpty$: jest.fn().mockReturnValue(of(false)),
+    isContentError$: jest.fn().mockReturnValue(of(false))
+  };
 
   const mockXxxUserFacade = {
-    isUsersEmpty: jest.fn().mockReturnValue(signal(false)),
-    isUsersLoaded: jest.fn().mockReturnValue(signal(false)),
-    isUsersLoading: jest.fn().mockReturnValue(signal(false)),
-    selectedUserId: jest.fn().mockReturnValue(signal(mockUserId)),
+    isUsersEmpty$: jest.fn().mockReturnValue(of(false)),
+    isUsersLoaded$: jest.fn().mockReturnValue(of(false)),
+    isUsersLoading$: jest.fn().mockReturnValue(of(false)),
+    selectedUserId$: jest.fn().mockReturnValue(of(mockUserId)),
     setSelectedUserId: jest.fn(),
     showUsers: jest.fn(),
-    users: jest.fn().mockReturnValue(signal(mockUsers)),
-  }
+    users$: jest.fn().mockReturnValue(of(mockUsers))
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ExtendedXxxUser],
+      imports: [
+        ExtendedXxxUser
+      ],
       providers: [
-        {provide: XxxContentFacade, useValue: mockXxxContentFacade},
-        {provide: XxxUserFacade, useValue: mockXxxUserFacade}
+        { provide: XxxContentFacade, useValue: mockXxxContentFacade },
+        { provide: XxxUserFacade, useValue: mockXxxUserFacade }
       ]
     }).compileComponents();
     fixture = TestBed.createComponent(ExtendedXxxUser);
