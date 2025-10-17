@@ -55,7 +55,7 @@ describe('XxxContentEffects', () => {
       actions$ = of({ type: '[xxxContent] getContent', key: contentKey });
       service.getContent$.subscribe(() => {
       });
-      // Use runAllTimers complete the observable subscription
+      // Use runAllTimers to complete the observable subscription
       jest.runAllTimers();
       expect(mockContentData.getContent).toHaveBeenCalledWith(contentKey);
     });
