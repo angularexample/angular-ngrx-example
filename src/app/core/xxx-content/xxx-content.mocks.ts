@@ -1,4 +1,12 @@
-import { XxxContentType, XxxContentStatus, XxxContentApi } from './xxx-content-types';
+import { XxxContentType, XxxContentStatus, XxxContentApi, XxxContentState } from './xxx-content-types';
+
+export const mockContentHeader: XxxContentType = {
+contentModel: {
+  headerTitle: `Angular NgRx Example`
+  },
+  key: 'header',
+  status: XxxContentStatus.LOADED
+}
 
 export const mockContentHome: XxxContentType = {
   contentModel: {
@@ -27,4 +35,19 @@ export const mockContentEmpty: XxxContentType = {
   contentModel: {},
   key: 'empty',
   status: XxxContentStatus.EMPTY
+}
+
+export const mockContentError: XxxContentType = {
+  contentModel: {},
+  key: 'error',
+  status: XxxContentStatus.ERROR
+}
+
+export const mockContentState: XxxContentState = {
+  contents: [
+    mockContentEmpty,
+    mockContentError,
+    mockContentHeader,
+    mockContentHome,
+  ]
 }
