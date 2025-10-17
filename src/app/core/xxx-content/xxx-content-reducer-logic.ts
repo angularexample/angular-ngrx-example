@@ -46,7 +46,7 @@ export const getContentSuccess = (state: XxxContentState, action: { content: Xxx
   const contents: XxxContentType[] = <XxxContentType[]>JSON.parse(JSON.stringify(state.contents));
   let content: XxxContentType | undefined = contents.find((item: XxxContentType) => item.key === action.content.key);
   let status: XxxContentStatus = XxxContentStatus.LOADED;
-  if (action.content.contentModel === undefined) {
+  if (Object.keys(action.content.contentModel).length  === 0) {
     status = XxxContentStatus.EMPTY;
   }
   if (content === undefined) {
