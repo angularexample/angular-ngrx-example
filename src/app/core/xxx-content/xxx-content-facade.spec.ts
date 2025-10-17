@@ -10,6 +10,7 @@ import { XxxContentType } from './xxx-content-types';
 describe('XxxContentFacade', () => {
   const contentKey: string = 'home';
   let service: XxxContentFacade;
+  let spyDispatch: jest.SpyInstance;
   let store: MockStore;
 
   beforeEach(() => {
@@ -21,6 +22,7 @@ describe('XxxContentFacade', () => {
     });
     service = TestBed.inject(XxxContentFacade);
     store = TestBed.inject(MockStore);
+    spyDispatch = jest.spyOn(store, 'dispatch');
   });
 
   afterEach(() => {
@@ -107,7 +109,6 @@ describe('XxxContentFacade', () => {
 
   describe('showContent', () => {
     it('should run dispatch(XxxContentActions.showContent)', () => {
-      const spyDispatch = jest.spyOn(store, 'dispatch');
       service.showContent(contentKey);
       expect(spyDispatch).toHaveBeenCalledWith({ key: contentKey, type: XxxContentActions.showContent.type });
     });
