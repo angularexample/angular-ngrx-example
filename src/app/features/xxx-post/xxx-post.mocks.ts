@@ -2,13 +2,6 @@ import { XxxPostState, XxxPostType } from './xxx-post-types';
 
 export const mockSelectedUserId = 1;
 
-export const mockPost: XxxPostType = {
-  body: 'mockBody',
-  id: 1,
-  title: 'mockTitle',
-  userId: mockSelectedUserId,
-};
-
 export const mockPost1: XxxPostType = {
   body: 'mockBody1',
   id: 1,
@@ -38,6 +31,14 @@ export const mockPost3: XxxPostType = {
 };
 
 export const mockPosts: XxxPostType[] = [mockPost1, mockPost2, mockPost3];
+
+export const mockPostStateSelectedUser: XxxPostState = {
+  isPostsLoading: false,
+  postForm: undefined,
+  posts: [],
+  selectedPostId: undefined,
+  selectedUserId: mockSelectedUserId,
+}
 
 export const mockPostState: XxxPostState = {
   isPostsLoading: false,

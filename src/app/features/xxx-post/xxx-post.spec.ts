@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { mockPost, mockPosts } from './xxx-post.mocks';
+import { mockPost1, mockPosts } from './xxx-post.mocks';
 import { of } from 'rxjs';
 import { XxxContent } from '../../core/xxx-content/xxx-content';
 import { XxxContentFacade } from '../../core/xxx-content/xxx-content-facade';
@@ -43,9 +43,9 @@ describe('XxxPost', () => {
     isPostsLoading$: jest.fn().mockReturnValue(of(false)),
     isSaveButtonDisabled$: jest.fn().mockReturnValue(of(false)),
     posts$: jest.fn().mockReturnValue(of(mockPosts)),
-    selectedPost$: jest.fn().mockReturnValue(of(mockPost)),
-    selectedPostId$: jest.fn().mockReturnValue(of(mockPost.id)),
-    selectedUserId$: jest.fn().mockReturnValue(of(mockPost.userId)),
+    selectedPost$: jest.fn().mockReturnValue(of(mockPost1)),
+    selectedPostId$: jest.fn().mockReturnValue(of(mockPost1.id)),
+    selectedUserId$: jest.fn().mockReturnValue(of(mockPost1.userId)),
     setPostForm: jest.fn(),
     setSelectedPostId: jest.fn(),
     showPosts: jest.fn(),
@@ -72,8 +72,8 @@ describe('XxxPost', () => {
 
   describe('selectPost', () => {
     it('should call postFacade.setSelectedPostId', () => {
-      component.selectPost(mockPost);
-      expect(mockXxxPostFacade.setSelectedPostId).toHaveBeenCalledWith(mockPost.id);
+      component.selectPost(mockPost1);
+      expect(mockXxxPostFacade.setSelectedPostId).toHaveBeenCalledWith(mockPost1.id);
     });
   });
 });

@@ -1,6 +1,6 @@
 import { firstValueFrom, Observable } from 'rxjs';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { mockPost, mockPosts } from './xxx-post.mocks';
+import { mockPost1, mockPosts } from './xxx-post.mocks';
 import { provideHttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { XxxPostData } from './xxx-post-data';
@@ -53,18 +53,18 @@ describe('XxxPostData', () => {
 
   describe('updatePost', () => {
     it('should return a the updated post items', async () => {
-      const response$: Observable<XxxPostType> = service.updatePost(mockPost);
+      const response$: Observable<XxxPostType> = service.updatePost(mockPost1);
       const resultPromise: Promise<XxxPostType> = firstValueFrom(response$);
-      const url = `https://jsonplaceholder.typicode.com/posts/${mockPost.id}`;
+      const url = `https://jsonplaceholder.typicode.com/posts/${mockPost1.id}`;
       const req = httpTestingController.expectOne(url, 'Request to update the post');
       // Assert the request URL
       expect(req.request.url).toBe(url);
       // Assert the request method
       expect(req.request.method).toBe('PUT');
       // Flushing the request causes it to complete, delivering the result
-      req.flush(mockPost);
+      req.flush(mockPost1);
       // Assert that the response was successful
-      expect(await resultPromise).toEqual(mockPost);
+      expect(await resultPromise).toEqual(mockPost1);
     });
   });
 });

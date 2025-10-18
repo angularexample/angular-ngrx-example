@@ -1,8 +1,8 @@
 import * as XxxPostSelectors from './xxx-post-selectors';
 import { XxxPostType } from './xxx-post-types';
 import {
-  mockPost1,
   mockPost2,
+  mockPost2Edited,
   mockPosts,
   mockPostState,
   mockPostStateFormSame,
@@ -168,31 +168,31 @@ describe('xxx-post-selectors', () => {
     });
 
     it('should return true when not loaded and selectedPost and no postForm', () => {
-      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(false, mockPost1, undefined);
+      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(false, mockPost2, undefined);
       expect(result).toBe(true);
     });
 
     it('should return true when loaded and selectedPost and no postForm', () => {
-      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(true, mockPost1, undefined);
+      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(true, mockPost2, undefined);
       expect(result).toBe(true);
     });
 
     it('should return true when not loaded and selectedPost equals postForm', () => {
-      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(false, mockPost1, mockPost1);
+      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(false, mockPost2, mockPost2);
       expect(result).toBe(true);
     });
 
     it('should return true when loaded and selectedPost equals postForm', () => {
-      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(true, mockPost1, mockPost1);
+      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(true, mockPost2, mockPost2);
       expect(result).toBe(true);
     });
     it('should return true when not loaded and selectedPost not equals postForm', () => {
-      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(false, mockPost1, mockPost2);
+      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(false, mockPost2, mockPost2Edited);
       expect(result).toBe(true);
     });
 
     it('should return false when loaded and selectedPost not equals postForm', () => {
-      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(true, mockPost1, mockPost2);
+      const result: unknown = XxxPostSelectors.selectIsSaveButtonDisabled.projector(true, mockPost2, mockPost2Edited);
       expect(result).toBe(false);
     });
   });
