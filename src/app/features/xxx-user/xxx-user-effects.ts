@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { XxxAlert } from '../../core/xxx-alert/xxx-alert';
 import { XxxLoadingService } from '../../core/xxx-loading/xxx-loading-service';
-import { XxxUserActions } from './xxx-user.actions';
+import { XxxUserActions } from './xxx-user-actions';
 import { XxxUserApiResponse } from './xxx-user-types';
 import { XxxUserData } from './xxx-user-data';
-import * as XxxUserSelectors from './xxx-user.selectors';
+import * as XxxUserSelectors from './xxx-user-selectors';
 
 @Injectable()
 export class XxxUserEffects {

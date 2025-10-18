@@ -1,6 +1,6 @@
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestBed } from '@angular/core/testing';
-import { XxxUserActions } from './xxx-user.actions';
+import { XxxUserActions } from './xxx-user-actions';
 import { XxxUserFacade } from './xxx-user-facade';
 import { xxxUserInitialState } from './xxx-user-types';
 

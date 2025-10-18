@@ -2,9 +2,9 @@ import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
 import { Route } from '@angular/router';
 import { XxxUser } from './xxx-user';
-import { XxxUserEffects } from './xxx-user.effects';
+import { XxxUserEffects } from './xxx-user-effects';
 import { xxxUserFeatureName } from './xxx-user-types';
-import { xxxUserReducer } from './xxx-user.reducer';
+import { xxxUserReducer } from './xxx-user-reducer';
 
 export const xxxUserRoutes: Route[] = [
   {

@@ -9,7 +9,7 @@ import { XxxPostType } from './xxx-post-types';
 import { XxxPostActions } from './xxx-post.actions';
 import { XxxPostData } from './xxx-post-data';
 import * as XxxPostSelectors from './xxx-post.selectors';
-import * as XxxUserSelectors from '../xxx-user/xxx-user.selectors';
+import * as XxxUserSelectors from '../xxx-user/xxx-user-selectors';
 
 @Injectable()
 export class XxxPostEffects {
