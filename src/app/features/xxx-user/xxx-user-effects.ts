@@ -20,12 +20,43 @@ export class XxxUserEffects {
   private loadingService: XxxLoadingService = inject(XxxLoadingService);
   private userDataService: XxxUserData = inject(XxxUserData);
 
+  getUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(XxxUserActions.getUsers),
+      tap(() => {
+        this.loadingService.loadingOn();
+      }),
+      switchMap(() =>
+        this.userDataService.getUsers().pipe(
+          map((response: XxxUserApiResponse) => XxxUserActions.getUsersSuccess({ payload: response })),
+          catchError(() => of(XxxUserActions.getUsersError()))
+        )
+      )
+    ));
+
+  getUsersError$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(XxxUserActions.getUsersError),
+      tap(() => {
+        this.loadingService.loadingOff();
+        this.alertService.showError('Error. Unable to get users.');
+      })
+    ), { dispatch: false });
+
+  getUsersSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(XxxUserActions.getUsersSuccess),
+      tap(() => {
+        this.loadingService.loadingOff();
+      })
+    ), { dispatch: false });
+
   setSelectedUserId$ = createEffect(() => this.actions$.pipe(
       ofType(XxxUserActions.setSelectedUserId),
       tap(() => {
-        void this.router.navigateByUrl('/post')
+        void this.router.navigateByUrl('/post');
       })
-    ), {dispatch: false}
+    ), { dispatch: false }
   );
 
   showUsers$ = createEffect(() =>
@@ -35,36 +66,5 @@ export class XxxUserEffects {
       map(([_arg1, arg2]) => arg2),
       filter((isUsersLoaded: boolean) => !isUsersLoaded),
       map(() => XxxUserActions.getUsers())
-    ));
-
-  getUsersError$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(XxxUserActions.getUsersError),
-      tap(() => {
-        this.loadingService.loadingOff();
-        this.alertService.showError('Error. Unable to get users.');
-      }),
-    ), {dispatch: false});
-
-  getUsersSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(XxxUserActions.getUsersSuccess),
-      tap(() => {
-        this.loadingService.loadingOff()
-      }),
-    ), {dispatch: false});
-
-  getUsers$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(XxxUserActions.getUsers),
-      tap(() => {
-        this.loadingService.loadingOn()
-      }),
-      switchMap(() =>
-        this.userDataService.getUsers().pipe(
-          map((response: XxxUserApiResponse) => XxxUserActions.getUsersSuccess({payload: response})),
-          catchError(() => of(XxxUserActions.getUsersError()))
-        )
-      )
     ));
 }
