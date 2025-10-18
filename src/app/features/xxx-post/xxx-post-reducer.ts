@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
-import { XxxPostActions } from './xxx-post.actions';
+import { XxxPostActions } from './xxx-post-actions';
 import { xxxPostInitialState } from './xxx-post-types';
-import * as XxxPostReducerLogic from './xxx-post.reducer-logic';
+import * as XxxPostReducerLogic from './xxx-post-reducer-logic';
 
 export const xxxPostReducer = createReducer(
   xxxPostInitialState,

@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { XxxAlert } from '../../core/xxx-alert/xxx-alert';
 import { XxxPostType } from './xxx-post-types';
-import { XxxPostActions } from './xxx-post.actions';
+import { XxxPostActions } from './xxx-post-actions';
 import { XxxPostData } from './xxx-post-data';
-import * as XxxPostSelectors from './xxx-post.selectors';
+import * as XxxPostSelectors from './xxx-post-selectors';
 import * as XxxUserSelectors from '../xxx-user/xxx-user-selectors';
 
 @Injectable()

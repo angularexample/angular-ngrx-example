@@ -1,8 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { isPostsEqual } from './xxx-post-utilities';
-import { XxxPostType, xxxPostFeatureName, XxxPostState } from './xxx-post-types';
+import { xxxPostFeatureName, XxxPostState, XxxPostType } from './xxx-post-types';
 
 export const selectPostState = createFeatureSelector<XxxPostState>(xxxPostFeatureName);
+
+export const selectIsNoSelectedPost = createSelector(
+  selectPostState,
+  (state: XxxPostState) => state.selectedPostId === undefined
+);
 
 export const selectIsPostsLoading = createSelector(
   selectPostState,
@@ -12,22 +17,27 @@ export const selectIsPostsLoading = createSelector(
 export const selectPostForm = createSelector(
   selectPostState,
   (state: XxxPostState) => state.postForm
-)
+);
 
 export const selectPosts = createSelector(
   selectPostState,
   (state: XxxPostState) => state.posts
-)
+);
 
 export const selectSelectedPostId = createSelector(
   selectPostState,
   (state: XxxPostState) => state.selectedPostId
-)
+);
 
 export const selectSelectedUserId = createSelector(
   selectPostState,
   (state: XxxPostState) => state.selectedUserId
-)
+);
+
+export const selectIsNoSelectedUser = createSelector(
+  selectSelectedUserId,
+  (selectedUserId) => selectedUserId === undefined
+);
 
 export const selectIsPostsEmpty = createSelector(
   selectIsPostsLoading,
@@ -61,14 +71,4 @@ export const selectIsSaveButtonDisabled = createSelector(
     const isPostFormEqual: boolean = isPostsEqual(selectedPost, postForm);
     return !isPostsLoaded || (selectedPost === undefined) || (postForm === undefined) || isPostFormEqual;
   }
-);
-
-export const selectIsNoSelectedPost = createSelector(
-  selectPostState,
-  (state: XxxPostState) => state.selectedPostId === undefined
-);
-
-export const selectIsNoSelectedUser = createSelector(
-  selectSelectedUserId,
-  (selectedUserId) => selectedUserId === undefined
 );
