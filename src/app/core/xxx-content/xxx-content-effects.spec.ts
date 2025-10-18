@@ -52,7 +52,7 @@ describe('XxxContentEffects', () => {
     it('should run contentData.getContent', () => {
       jest.useFakeTimers();
       mockContentData.getContent.mockReturnValue(of({ mockContentApiHome: mockContentHomeApi }));
-      actions$ = of({ type: '[xxxContent] getContent', key: contentKey });
+      actions$ = of({ type: XxxContentActions.getContent.type, key: contentKey });
       service.getContent$.subscribe(() => {
       });
       // Use runAllTimers to complete the observable subscription
@@ -64,7 +64,7 @@ describe('XxxContentEffects', () => {
       jest.useFakeTimers();
       let result: boolean = false;
       mockContentData.getContent.mockReturnValue(of(mockContentHomeApi));
-      actions$ = of({ type: '[xxxContent] getContent', key: contentKey });
+      actions$ = of({ type: XxxContentActions.getContent.type, key: contentKey });
       service.getContent$.subscribe((action) => {
         result = action.type === XxxContentActions.getContentSuccess.type;
       });
@@ -77,7 +77,7 @@ describe('XxxContentEffects', () => {
       let result: boolean = false;
       const httpErrorResponse: HttpErrorResponse = new HttpErrorResponse({});
       mockContentData.getContent.mockImplementation(() => throwError(() => httpErrorResponse));
-      actions$ = of({ type: '[xxxContent] getContent', key: contentKey });
+      actions$ = of({ type: XxxContentActions.getContent.type, key: contentKey });
       service.getContent$.subscribe((action) => {
         result = action.type === XxxContentActions.getContentError.type;
       });
@@ -98,7 +98,7 @@ describe('XxxContentEffects', () => {
         )
       );
       let result: boolean = false;
-      actions$ = of({ type: '[xxxContent] showContent', key: contentKey });
+      actions$ = of({ type: XxxContentActions.showContent.type, key: contentKey });
       service.showContent$.subscribe((action) => {
         result = action.type === XxxContentActions.getContent.type &&
           action.key === contentKey;
