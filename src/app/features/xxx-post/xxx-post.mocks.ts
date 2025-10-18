@@ -32,6 +32,8 @@ export const mockPost3: XxxPostType = {
 
 export const mockPosts: XxxPostType[] = [mockPost1, mockPost2, mockPost3];
 
+export const mockPostsSaved: XxxPostType[] = [mockPost1, mockPost2Edited, mockPost3];
+
 export const mockPostStateSelectedUser: XxxPostState = {
   isPostsLoading: false,
   postForm: undefined,
@@ -76,10 +78,18 @@ export const mockPostStateFormSame: XxxPostState = {
   selectedUserId: mockSelectedUserId,
 }
 
-export const mockPostStateFormDifferent: XxxPostState = {
+export const mockPostStateEdited: XxxPostState = {
   isPostsLoading: false,
-  postForm: mockPost2,
+  postForm: mockPost2Edited,
   posts: mockPosts,
+  selectedPostId: mockSelectedPostId,
+  selectedUserId: mockSelectedUserId,
+}
+
+export const mockPostStateSaved: XxxPostState = {
+  isPostsLoading: false,
+  postForm: mockPost2Edited,
+  posts: mockPostsSaved,
   selectedPostId: mockSelectedPostId,
   selectedUserId: mockSelectedUserId,
 }
