@@ -1,31 +1,84 @@
-import { XxxPostType } from './xxx-post-types';
+import { XxxPostState, XxxPostType } from './xxx-post-types';
+
+export const mockSelectedUserId = 1;
 
 export const mockPost: XxxPostType = {
   body: 'mockBody',
   id: 1,
   title: 'mockTitle',
-  userId: 1,
+  userId: mockSelectedUserId,
 };
 
 export const mockPost1: XxxPostType = {
+  body: 'mockBody1',
   id: 1,
-  userId: 1,
-  title: 'mockTitle',
-  body: 'mockBody',
+  title: 'mockTitle1',
+  userId: mockSelectedUserId,
 };
 
 export const mockPost2: XxxPostType = {
-  id: 2,
-  userId: 1,
-  title: 'mockTitle2',
   body: 'mockBody2',
+  id: 2,
+  title: 'mockTitle2',
+  userId: mockSelectedUserId,
+};
+
+export const mockPost2Edited: XxxPostType = {
+  body: 'mockBody2',
+  id: 2,
+  title: 'mockTitle2 edited',
+  userId: mockSelectedUserId,
 };
 
 export const mockPost3: XxxPostType = {
-  id: 1,
-  userId: 1,
+  body: 'mockBody3',
+  id: 3,
   title: 'mockTitle3',
-  body: 'mockBody',
+  userId: mockSelectedUserId,
 };
 
-export const mockPosts: XxxPostType[] = [mockPost1, mockPost2];
+export const mockPosts: XxxPostType[] = [mockPost1, mockPost2, mockPost3];
+
+export const mockPostState: XxxPostState = {
+  isPostsLoading: false,
+  postForm: undefined,
+  posts: mockPosts,
+  selectedPostId: undefined,
+  selectedUserId: mockSelectedUserId,
+}
+
+export const mockPostStateLoading: XxxPostState = {
+  isPostsLoading: true,
+  postForm: undefined,
+  posts: [],
+  selectedPostId: undefined,
+  selectedUserId: mockSelectedUserId,
+}
+
+export const mockSelectedPostId = 2;
+
+export const mockSelectedPost: XxxPostType = mockPost2;
+
+export const mockPostStateSelected: XxxPostState = {
+  isPostsLoading: false,
+  postForm: undefined,
+  posts: mockPosts,
+  selectedPostId: mockSelectedPostId,
+  selectedUserId: mockSelectedUserId,
+}
+
+export const mockPostStateFormSame: XxxPostState = {
+  isPostsLoading: false,
+  postForm: mockPost2,
+  posts: mockPosts,
+  selectedPostId: mockSelectedPostId,
+  selectedUserId: mockSelectedUserId,
+}
+
+export const mockPostStateFormDifferent: XxxPostState = {
+  isPostsLoading: false,
+  postForm: mockPost2,
+  posts: mockPosts,
+  selectedPostId: mockSelectedPostId,
+  selectedUserId: mockSelectedUserId,
+}
