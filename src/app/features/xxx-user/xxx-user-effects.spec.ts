@@ -89,8 +89,7 @@ describe('XxxUserEffects', () => {
       jest.useFakeTimers();
       mockUserData.getUsers.mockReturnValue(of(mockXxxUserApiResponse));
       actions$ = of({ type: XxxUserActions.getUsers.type });
-      service.getUsers$.subscribe(() => {
-      });
+      service.getUsers$.subscribe();
       // Use runAllTimers to complete the observable subscription
       jest.runAllTimers();
       expect(mockUserData.getUsers).toHaveBeenCalled();
