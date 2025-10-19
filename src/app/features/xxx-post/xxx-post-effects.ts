@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { XxxAlert } from '../../core/xxx-alert/xxx-alert';
 import { XxxLoadingService } from '../../core/xxx-loading/xxx-loading-service';
-import { XxxPostType } from './xxx-post-types';
 import { XxxPostActions } from './xxx-post-actions';
 import { XxxPostData } from './xxx-post-data';
 import * as XxxPostSelectors from './xxx-post-selectors';
+import { XxxPostType } from './xxx-post-types';
 import * as XxxUserSelectors from '../xxx-user/xxx-user-selectors';
 
 @Injectable()
@@ -88,8 +88,7 @@ export class XxxPostEffects {
         (userUserId !== undefined && !(isPostsLoaded && postUserId === userUserId))),
       map(([_isPostsLoaded, postUserId, userUserId]: [boolean, number | undefined, number | undefined]) => {
         if (userUserId !== undefined && userUserId !== postUserId) {
-          return XxxPostActions.setSelectedUserId({ userId: userUserId })
-            ;
+          return XxxPostActions.setSelectedUserId({ userId: userUserId });
         }
         return XxxPostActions.getPosts();
       })
