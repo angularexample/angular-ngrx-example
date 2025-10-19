@@ -27,6 +27,7 @@ export class XxxPostEffects {
       concatLatestFrom(() => this.store.select(XxxPostSelectors.selectSelectedUserId)),
       map(([_arg1, arg2]) => arg2),
       switchMap((userId: number | undefined) => {
+        this.loadingService.loadingOn();
         if (userId !== undefined) {
           return this.xxxPostData.getPosts(userId).pipe(
             map((posts: XxxPostType[]) => XxxPostActions.getPostsSuccess({ posts })),
