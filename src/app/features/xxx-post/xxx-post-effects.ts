@@ -5,6 +5,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { XxxAlert } from '../../core/xxx-alert/xxx-alert';
+import { XxxLoadingService } from '../../core/xxx-loading/xxx-loading-service';
 import { XxxPostType } from './xxx-post-types';
 import { XxxPostActions } from './xxx-post-actions';
 import { XxxPostData } from './xxx-post-data';
@@ -17,6 +18,7 @@ export class XxxPostEffects {
   private router: Router = inject(Router);
   private store: Store = inject(Store);
   private xxxAlert: XxxAlert = inject(XxxAlert);
+  private loadingService: XxxLoadingService = inject(XxxLoadingService);
   private xxxPostData: XxxPostData = inject(XxxPostData);
 
   getPosts$ = createEffect(() =>
@@ -27,11 +29,11 @@ export class XxxPostEffects {
       switchMap((userId: number | undefined) => {
         if (userId !== undefined) {
           return this.xxxPostData.getPosts(userId).pipe(
-            map((posts: XxxPostType[]) => XxxPostActions.getPostsSuccess({posts})),
+            map((posts: XxxPostType[]) => XxxPostActions.getPostsSuccess({ posts })),
             catchError(() => of(XxxPostActions.getPostsError()))
-          )
+          );
         } else {
-          return of(XxxPostActions.getPostsError())
+          return of(XxxPostActions.getPostsError());
         }
       })
     ));
@@ -39,17 +41,26 @@ export class XxxPostEffects {
   getPostsError$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.getPostsError),
       tap(() => {
+        this.loadingService.loadingOff();
         this.xxxAlert.showError('Error occurred getting posts');
       })
-    ), {dispatch: false}
+    ), { dispatch: false }
   );
+
+  getPostsSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(XxxPostActions.getPostsSuccess),
+      tap(() => {
+        this.loadingService.loadingOff();
+      })
+    ), { dispatch: false });
 
   setSelectedPostId$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.setSelectedPostId),
       tap(() => {
-        void this.router.navigateByUrl('/post/edit')
+        void this.router.navigateByUrl('/post/edit');
       })
-    ), {dispatch: false}
+    ), { dispatch: false }
   );
 
   setSelectedUserId$ = createEffect(() => this.actions$.pipe(
@@ -77,10 +88,10 @@ export class XxxPostEffects {
         (userUserId !== undefined && !(isPostsLoaded && postUserId === userUserId))),
       map(([_isPostsLoaded, postUserId, userUserId]: [boolean, number | undefined, number | undefined]) => {
         if (userUserId !== undefined && userUserId !== postUserId) {
-          return XxxPostActions.setSelectedUserId({userId: userUserId})
+          return XxxPostActions.setSelectedUserId({ userId: userUserId })
             ;
         }
-        return XxxPostActions.getPosts()
+        return XxxPostActions.getPosts();
       })
     )
   );
@@ -93,11 +104,11 @@ export class XxxPostEffects {
       switchMap((post: XxxPostType | undefined) => {
         if (post !== undefined) {
           return this.xxxPostData.updatePost(post).pipe(
-            map((postResponse: XxxPostType) => XxxPostActions.updatePostSuccess({postResponse})),
+            map((postResponse: XxxPostType) => XxxPostActions.updatePostSuccess({ postResponse })),
             catchError(() => of(XxxPostActions.updatePostError()))
-          )
+          );
         } else {
-          return of(XxxPostActions.updatePostError())
+          return of(XxxPostActions.updatePostError());
         }
       })
     ));
@@ -107,15 +118,15 @@ export class XxxPostEffects {
       tap(() => {
         this.xxxAlert.showError('Error occurred. Unable to update post');
       })
-    ), {dispatch: false}
+    ), { dispatch: false }
   );
 
   updatePostSuccess$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.updatePostSuccess),
       tap(() => {
         this.xxxAlert.showInfo('Successfully updated post');
-        void this.router.navigateByUrl('/post')
+        void this.router.navigateByUrl('/post');
       })
-    ), {dispatch: false}
+    ), { dispatch: false }
   );
 }
