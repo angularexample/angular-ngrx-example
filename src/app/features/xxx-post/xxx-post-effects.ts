@@ -43,7 +43,7 @@ export class XxxPostEffects {
       ofType(XxxPostActions.getPostsError),
       tap(() => {
         this.loadingService.loadingOff();
-        this.xxxAlert.showError('Error occurred getting posts');
+        this.xxxAlert.showError('Error occurred getting posts. Please try again later.');
       })
     ), { dispatch: false }
   );
@@ -121,16 +121,18 @@ export class XxxPostEffects {
       ofType(XxxPostActions.updatePostError),
       tap(() => {
         this.loadingService.loadingOff();
-        this.xxxAlert.showError('Error occurred. Unable to update post');
+        this.xxxAlert.showError('Error occurred during post update. Please try again later.');
       })
     ), { dispatch: false }
   );
 
   updatePostSuccess$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.updatePostSuccess),
-      tap(() => {
+    concatLatestFrom(() => this.store.select(XxxPostSelectors.selectSelectedPostId)),
+    map(([_arg1, arg2]) => arg2),
+    tap((postId: number| undefined) => {
         this.loadingService.loadingOff();
-        this.xxxAlert.showInfo('Successfully updated post');
+        this.xxxAlert.showInfo(`Successfully updated post: ${postId}`);
         void this.router.navigateByUrl('/post');
       })
     ), { dispatch: false }
