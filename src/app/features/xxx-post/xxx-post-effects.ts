@@ -105,6 +105,7 @@ export class XxxPostEffects {
       concatLatestFrom(() => this.store.select(XxxPostSelectors.selectPostForm)),
       map(([_arg1, arg2]) => arg2),
       switchMap((post: XxxPostType | undefined) => {
+        this.loadingService.loadingOn();
         if (post !== undefined) {
           return this.xxxPostData.updatePost(post).pipe(
             map((postResponse: XxxPostType) => XxxPostActions.updatePostSuccess({ postResponse })),
@@ -119,6 +120,7 @@ export class XxxPostEffects {
   updatePostError$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.updatePostError),
       tap(() => {
+        this.loadingService.loadingOff();
         this.xxxAlert.showError('Error occurred. Unable to update post');
       })
     ), { dispatch: false }
@@ -127,6 +129,7 @@ export class XxxPostEffects {
   updatePostSuccess$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.updatePostSuccess),
       tap(() => {
+        this.loadingService.loadingOff();
         this.xxxAlert.showInfo('Successfully updated post');
         void this.router.navigateByUrl('/post');
       })
