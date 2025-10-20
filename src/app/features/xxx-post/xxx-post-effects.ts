@@ -99,7 +99,7 @@ export class XxxPostEffects {
     )
   );
 
-  updatePosts$ = createEffect(() =>
+  updatePost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(XxxPostActions.updatePost),
       concatLatestFrom(() => this.store.select(XxxPostSelectors.selectPostForm)),
