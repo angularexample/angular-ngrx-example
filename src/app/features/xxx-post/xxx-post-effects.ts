@@ -85,12 +85,15 @@ export class XxxPostEffects {
         ]
       ),
       map(([_arg1, arg2, arg3, arg4]) => [arg2, arg3, arg4] as [boolean, number | undefined, number | undefined]),
+      // Do nothing if posts are loaded and the user id in the Post state is the same as the user id in the User state
       filter(([isPostsLoaded, postUserId, userUserId]: [boolean, number | undefined, number | undefined]) =>
         (userUserId !== undefined && !(isPostsLoaded && postUserId === userUserId))),
       map(([_isPostsLoaded, postUserId, userUserId]: [boolean, number | undefined, number | undefined]) => {
         if (userUserId !== undefined && userUserId !== postUserId) {
+          // User ids are different, so set the user id in the Post state to the selected user id
           return XxxPostActions.setSelectedUserId({ userId: userUserId });
         }
+        // User ids match, but posts are not loaded. Try again to get posts
         return XxxPostActions.getPosts();
       })
     )
