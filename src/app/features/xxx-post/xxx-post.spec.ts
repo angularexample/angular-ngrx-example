@@ -31,21 +31,21 @@ describe('XxxPost', () => {
 
   const mockXxxContentFacade = {
     contentByKey$: jest.fn(),
-    isContentEmpty$: jest.fn().mockReturnValue(of(false)),
-    isContentError$: jest.fn().mockReturnValue(of(false))
+    isContentEmpty$: jest.fn(),
+    isContentError$: jest.fn()
   };
 
   const mockXxxPostFacade = {
-    isNoSelectedPost$: jest.fn().mockReturnValue(of(false)),
-    isNoSelectedUser$: jest.fn().mockReturnValue(of(false)),
-    isPostsEmpty$: jest.fn().mockReturnValue(of(false)),
-    isPostsLoaded$: jest.fn().mockReturnValue(of(false)),
-    isPostsLoading$: jest.fn().mockReturnValue(of(false)),
-    isSaveButtonDisabled$: jest.fn().mockReturnValue(of(false)),
-    posts$: jest.fn().mockReturnValue(of(mockPosts)),
-    selectedPost$: jest.fn().mockReturnValue(of(mockPost1)),
-    selectedPostId$: jest.fn().mockReturnValue(of(mockPost1.id)),
-    selectedUserId$: jest.fn().mockReturnValue(of(mockPost1.userId)),
+    isNoSelectedPost$: of(false),
+    isNoSelectedUser$: of(false),
+    isPostsEmpty$: of(false),
+    isPostsLoaded$: of(false),
+    isPostsLoading$: of(false),
+    isSaveButtonDisabled$: of(false),
+    posts$: of(mockPosts),
+    selectedPost$: of(mockPost1),
+    selectedPostId$: of(mockPost1.id),
+    selectedUserId$: of(mockPost1.userId),
     setPostForm: jest.fn(),
     setSelectedPostId: jest.fn(),
     showPosts: jest.fn(),
