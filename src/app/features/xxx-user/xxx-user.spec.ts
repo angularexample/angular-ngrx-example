@@ -32,18 +32,18 @@ describe('XxxUser', () => {
 
   const mockXxxContentFacade = {
     contentByKey$: jest.fn(),
-    isContentEmpty$: jest.fn().mockReturnValue(of(false)),
-    isContentError$: jest.fn().mockReturnValue(of(false))
+    isContentEmpty$: jest.fn(),
+    isContentError$: jest.fn()
   };
 
   const mockXxxUserFacade = {
-    isUsersEmpty$: jest.fn().mockReturnValue(of(false)),
-    isUsersLoaded$: jest.fn().mockReturnValue(of(false)),
-    isUsersLoading$: jest.fn().mockReturnValue(of(false)),
-    selectedUserId$: jest.fn().mockReturnValue(of(mockUserId)),
+    isUsersEmpty$: of(false),
+    isUsersLoaded$: of(false),
+    isUsersLoading$: of(false),
+    selectedUserId$: of(mockUserId),
     setSelectedUserId: jest.fn(),
     showUsers: jest.fn(),
-    users$: jest.fn().mockReturnValue(of(mockUsers))
+    users$: of(mockUsers)
   };
 
   beforeEach(async () => {
