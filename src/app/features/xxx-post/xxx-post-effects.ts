@@ -18,7 +18,7 @@ export class XxxPostEffects {
   private router: Router = inject(Router);
   private store: Store = inject(Store);
   private xxxAlert: XxxAlert = inject(XxxAlert);
-  private loadingService: XxxLoadingService = inject(XxxLoadingService);
+  private xxxLoadingService: XxxLoadingService = inject(XxxLoadingService);
   private xxxPostData: XxxPostData = inject(XxxPostData);
 
   getPosts$ = createEffect(() =>
@@ -27,7 +27,7 @@ export class XxxPostEffects {
       concatLatestFrom(() => this.store.select(XxxPostSelectors.selectSelectedUserId)),
       map(([_arg1, arg2]) => arg2),
       switchMap((userId: number | undefined) => {
-        this.loadingService.loadingOn();
+        this.xxxLoadingService.loadingOn();
         if (userId !== undefined) {
           return this.xxxPostData.getPosts(userId).pipe(
             map((posts: XxxPostType[]) => XxxPostActions.getPostsSuccess({ posts })),
@@ -42,7 +42,7 @@ export class XxxPostEffects {
   getPostsError$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.getPostsError),
       tap(() => {
-        this.loadingService.loadingOff();
+        this.xxxLoadingService.loadingOff();
         this.xxxAlert.showError('Error occurred getting posts. Please try again later.');
       })
     ), { dispatch: false }
@@ -52,7 +52,7 @@ export class XxxPostEffects {
     this.actions$.pipe(
       ofType(XxxPostActions.getPostsSuccess),
       tap(() => {
-        this.loadingService.loadingOff();
+        this.xxxLoadingService.loadingOff();
       })
     ), { dispatch: false });
 
@@ -105,7 +105,7 @@ export class XxxPostEffects {
       concatLatestFrom(() => this.store.select(XxxPostSelectors.selectPostForm)),
       map(([_arg1, arg2]) => arg2),
       switchMap((post: XxxPostType | undefined) => {
-        this.loadingService.loadingOn();
+        this.xxxLoadingService.loadingOn();
         if (post !== undefined) {
           return this.xxxPostData.updatePost(post).pipe(
             map((postResponse: XxxPostType) => XxxPostActions.updatePostSuccess({ postResponse })),
@@ -120,7 +120,7 @@ export class XxxPostEffects {
   updatePostError$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.updatePostError),
       tap(() => {
-        this.loadingService.loadingOff();
+        this.xxxLoadingService.loadingOff();
         this.xxxAlert.showError('Error occurred during post update. Please try again later.');
       })
     ), { dispatch: false }
@@ -128,10 +128,10 @@ export class XxxPostEffects {
 
   updatePostSuccess$ = createEffect(() => this.actions$.pipe(
       ofType(XxxPostActions.updatePostSuccess),
-    concatLatestFrom(() => this.store.select(XxxPostSelectors.selectSelectedPostId)),
-    map(([_arg1, arg2]) => arg2),
-    tap((postId: number| undefined) => {
-        this.loadingService.loadingOff();
+      concatLatestFrom(() => this.store.select(XxxPostSelectors.selectSelectedPostId)),
+      map(([_arg1, arg2]) => arg2),
+      tap((postId: number | undefined) => {
+        this.xxxLoadingService.loadingOff();
         this.xxxAlert.showInfo(`Successfully updated post: ${postId}`);
         void this.router.navigateByUrl('/post');
       })
