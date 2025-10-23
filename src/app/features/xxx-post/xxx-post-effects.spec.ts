@@ -27,8 +27,8 @@ class XxxDummyComponent {
 describe('XxxPostEffects', () => {
   let actions$: Observable<Action> = new Observable<Action>();
   let router: Router;
-  let spyRouterNavigate: jest.SpyInstance;
   let service: XxxPostEffects;
+  let spyRouterNavigate: jest.SpyInstance;
   let store: MockStore;
 
   const mockRoutes: Route[] = [
@@ -38,17 +38,17 @@ describe('XxxPostEffects', () => {
     }
   ];
 
-  const mockXxxAlert = {
+  const mockXxxAlert: Partial<XxxAlert> = {
     showError: jest.fn(),
     showInfo: jest.fn()
   };
 
-  const mockXxxLoadingService = {
-    loadingOn: jest.fn(),
-    loadingOff: jest.fn()
+  const mockXxxLoadingService: Partial<XxxLoadingService> = {
+    loadingOff: jest.fn(),
+    loadingOn: jest.fn()
   };
 
-  const mockPostData = {
+  const mockXxxPostData = {
     getPosts: jest.fn().mockReturnValue(of(mockPosts)),
     updatePost: jest.fn().mockReturnValue(of(mockPost2Edited))
   };
@@ -64,7 +64,7 @@ describe('XxxPostEffects', () => {
         provideRouter(mockRoutes),
         { provide: XxxAlert, useValue: mockXxxAlert },
         { provide: XxxLoadingService, useValue: mockXxxLoadingService },
-        { provide: XxxPostData, useValue: mockPostData },
+        { provide: XxxPostData, useValue: mockXxxPostData },
         XxxPostEffects
       ]
     });
@@ -79,7 +79,7 @@ describe('XxxPostEffects', () => {
     jest.useRealTimers();
     jest.clearAllMocks();
     store.resetSelectors();
-    mockPostData.updatePost.mockReturnValue(of(mockPost2Edited));
+    mockXxxPostData.updatePost.mockReturnValue(of(mockPost2Edited));
   });
 
   describe('constructor phase', () => {
@@ -97,7 +97,7 @@ describe('XxxPostEffects', () => {
       service.getPosts$.subscribe();
       // Use runAllTimers in a zoneless app to complete the observable subscription
       jest.runAllTimers();
-      expect(mockPostData.getPosts).toHaveBeenCalled();
+      expect(mockXxxPostData.getPosts).toHaveBeenCalled();
     });
 
     it('should run loadingService.loadingOn', () => {
@@ -129,7 +129,7 @@ describe('XxxPostEffects', () => {
       store.refreshState();
       let result: boolean = false;
       const httpErrorResponse: HttpErrorResponse = new HttpErrorResponse({});
-      mockPostData.getPosts.mockImplementation(() => throwError(() => httpErrorResponse));
+      mockXxxPostData.getPosts.mockImplementation(() => throwError(() => httpErrorResponse));
       actions$ = of({ type: XxxPostActions.getPosts.type });
       service.getPosts$.subscribe((action) => {
         result = action.type === XxxPostActions.getPostsError.type;
@@ -145,7 +145,7 @@ describe('XxxPostEffects', () => {
       actions$ = of({ type: XxxPostActions.getPosts.type });
       service.getPosts$.subscribe();
       jest.runAllTimers();
-      expect(mockPostData.getPosts).not.toHaveBeenCalled();
+      expect(mockXxxPostData.getPosts).not.toHaveBeenCalled();
     });
 
     it('should return error action when undefined userId', () => {
@@ -201,15 +201,15 @@ describe('XxxPostEffects', () => {
   });
 
   describe('setSelectedUserId$', () => {
-    xit('should run return action getPosts', () => {
+    it('should run return action getPosts', () => {
       jest.useFakeTimers();
       let result: unknown;
       actions$ = of({ type: XxxPostActions.setSelectedUserId.type });
-      service.setSelectedPostId$.subscribe((action) => {
-        result = action;
+      service.setSelectedUserId$.subscribe((action) => {
+        result = action.type === XxxPostActions.getPosts.type;
       });
       jest.runAllTimers();
-      expect(result).toBeDefined();
+      expect(result).toBe(true);
     });
   });
 
@@ -268,7 +268,7 @@ describe('XxxPostEffects', () => {
       actions$ = of({ type: XxxPostActions.updatePost.type });
       service.updatePost$.subscribe();
       jest.runAllTimers();
-      expect(mockPostData.updatePost).toHaveBeenCalledWith(mockPost2Edited);
+      expect(mockXxxPostData.updatePost).toHaveBeenCalledWith(mockPost2Edited);
     });
 
     it('should not run xxxPostData.updatePost when postForm does not exiss', () => {
@@ -278,7 +278,7 @@ describe('XxxPostEffects', () => {
       actions$ = of({ type: XxxPostActions.updatePost.type });
       service.updatePost$.subscribe();
       jest.runAllTimers();
-      expect(mockPostData.updatePost).not.toHaveBeenCalled();
+      expect(mockXxxPostData.updatePost).not.toHaveBeenCalled();
     });
 
     it('should return updatePostError action when postForm does not exiss', () => {
@@ -300,7 +300,7 @@ describe('XxxPostEffects', () => {
       store.refreshState();
       let result: boolean = false;
       const httpErrorResponse: HttpErrorResponse = new HttpErrorResponse({});
-      mockPostData.updatePost.mockImplementation(() => throwError(() => httpErrorResponse));
+      mockXxxPostData.updatePost.mockImplementation(() => throwError(() => httpErrorResponse));
       actions$ = of({ type: XxxPostActions.updatePost.type });
       service.updatePost$.subscribe((action) => {
         result = action.type === XxxPostActions.updatePostError.type;
