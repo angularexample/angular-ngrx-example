@@ -5,7 +5,7 @@ import { XxxContent } from './xxx-content';
 import { XxxContentFacade } from './xxx-content-facade';
 import { of } from 'rxjs';
 
-const mockContentKey = 'home';
+const mockContentKey: string = 'home';
 
 // To test the input, use a mock host component.
 @Component({
@@ -13,12 +13,12 @@ const mockContentKey = 'home';
   template: '<xxx-content [contentKey]="contentKey"></xxx-content>'
 })
 class HostComponent {
-  contentKey = mockContentKey;
+  contentKey: string = mockContentKey;
 }
 
 describe('XxxContent', () => {
-  let hostFixture: ComponentFixture<HostComponent>;
   let contentComponent: XxxContent;
+  let hostFixture: ComponentFixture<HostComponent>;
 
   const mockXxxContentFacade = {
     contentByKey$: jest.fn().mockReturnValue(of(mockContentHome)),
@@ -51,6 +51,7 @@ describe('XxxContent', () => {
 
   describe('OnInit', () => {
     it('should have input value', async () => {
+      // To test a zoneless component with inputs, use whenStable.
       await hostFixture.whenStable();
       expect(contentComponent.contentKey()).toBe(mockContentKey);
     });
